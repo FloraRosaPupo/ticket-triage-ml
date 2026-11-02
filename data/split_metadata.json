@@ -1,0 +1,13 @@
+{
+  "source": "data/development.csv",
+  "source_sha256": "f9e12059663e9317f1093f868a8b0d352cea6d5f12ae17c4a804287f279f05ad",
+  "manifest_sha256": "8a27c94e9c81774305c1b1fded41c8cc8eb1049ded6a86d8d824bcd521bd089a",
+  "seed": 42,
+  "method": "sha256(seed:group_id), sorted per class; max(1, groups // 4) for validation",
+  "status": "didactic_provisional_human_review_pending",
+  "final_test": "pending_not_created_or_read",
+  "counts": {
+    "treino": 18,
+    "validacao": 6
+  }
+}

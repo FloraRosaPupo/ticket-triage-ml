@@ -1,0 +1,229 @@
+{
+  "status": "experimento_didatico_revisao_humana_pendente",
+  "teste_final": "pendente_nao_acessado",
+  "python": "3.13.2",
+  "scikit_learn": "1.9.1",
+  "script_sha256": "57a5ae5e57aba343f85455fe367e3b05f30b619f0cf0a8fc593e480c2a30391c",
+  "split_metadata": {
+    "source": "data/development.csv",
+    "source_sha256": "f9e12059663e9317f1093f868a8b0d352cea6d5f12ae17c4a804287f279f05ad",
+    "manifest_sha256": "8a27c94e9c81774305c1b1fded41c8cc8eb1049ded6a86d8d824bcd521bd089a",
+    "seed": 42,
+    "method": "sha256(seed:group_id), sorted per class; max(1, groups // 4) for validation",
+    "status": "didactic_provisional_human_review_pending",
+    "final_test": "pending_not_created_or_read",
+    "counts": {
+      "treino": 18,
+      "validacao": 6
+    }
+  },
+  "ordem_classes": [
+    "acesso",
+    "cobranca",
+    "problema_tecnico"
+  ],
+  "treino_ids": [
+    "dev_001",
+    "dev_002",
+    "dev_005",
+    "dev_006",
+    "dev_007",
+    "dev_008",
+    "dev_009",
+    "dev_010",
+    "dev_011",
+    "dev_012",
+    "dev_013",
+    "dev_014",
+    "dev_017",
+    "dev_018",
+    "dev_019",
+    "dev_020",
+    "dev_021",
+    "dev_022"
+  ],
+  "configuracao": {
+    "tfidf": "defaults",
+    "logistic_regression": {
+      "max_iter": 1000,
+      "random_state": 42
+    }
+  },
+  "avisos": [],
+  "limitacoes": "Base sintética minúscula; seis exemplos de validação; métricas indefinidas recebem zero; não é teste final.",
+  "resultados": {
+    "baseline": {
+      "metricas": {
+        "acesso": {
+          "precision": 0.3333333333333333,
+          "recall": 1.0,
+          "f1-score": 0.5,
+          "support": 2.0
+        },
+        "cobranca": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "problema_tecnico": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "accuracy": 0.3333333333333333,
+        "macro avg": {
+          "precision": 0.1111111111111111,
+          "recall": 0.3333333333333333,
+          "f1-score": 0.16666666666666666,
+          "support": 6.0
+        },
+        "weighted avg": {
+          "precision": 0.1111111111111111,
+          "recall": 0.3333333333333333,
+          "f1-score": 0.16666666666666666,
+          "support": 6.0
+        }
+      },
+      "matriz_confusao": [
+        [
+          2,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0
+        ]
+      ],
+      "previsoes": [
+        {
+          "id": "dev_003",
+          "real": "acesso",
+          "prevista": "acesso"
+        },
+        {
+          "id": "dev_004",
+          "real": "acesso",
+          "prevista": "acesso"
+        },
+        {
+          "id": "dev_015",
+          "real": "cobranca",
+          "prevista": "acesso"
+        },
+        {
+          "id": "dev_016",
+          "real": "cobranca",
+          "prevista": "acesso"
+        },
+        {
+          "id": "dev_023",
+          "real": "problema_tecnico",
+          "prevista": "acesso"
+        },
+        {
+          "id": "dev_024",
+          "real": "problema_tecnico",
+          "prevista": "acesso"
+        }
+      ],
+      "classes_sem_previsoes": [
+        "cobranca",
+        "problema_tecnico"
+      ]
+    },
+    "pipeline": {
+      "metricas": {
+        "acesso": {
+          "precision": 0.3333333333333333,
+          "recall": 0.5,
+          "f1-score": 0.4,
+          "support": 2.0
+        },
+        "cobranca": {
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1-score": 0.5,
+          "support": 2.0
+        },
+        "problema_tecnico": {
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1-score": 0.6666666666666666,
+          "support": 2.0
+        },
+        "accuracy": 0.5,
+        "macro avg": {
+          "precision": 0.611111111111111,
+          "recall": 0.5,
+          "f1-score": 0.5222222222222223,
+          "support": 6.0
+        },
+        "weighted avg": {
+          "precision": 0.611111111111111,
+          "recall": 0.5,
+          "f1-score": 0.5222222222222223,
+          "support": 6.0
+        }
+      },
+      "matriz_confusao": [
+        [
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          1
+        ]
+      ],
+      "previsoes": [
+        {
+          "id": "dev_003",
+          "real": "acesso",
+          "prevista": "acesso"
+        },
+        {
+          "id": "dev_004",
+          "real": "acesso",
+          "prevista": "cobranca"
+        },
+        {
+          "id": "dev_015",
+          "real": "cobranca",
+          "prevista": "cobranca"
+        },
+        {
+          "id": "dev_016",
+          "real": "cobranca",
+          "prevista": "acesso"
+        },
+        {
+          "id": "dev_023",
+          "real": "problema_tecnico",
+          "prevista": "acesso"
+        },
+        {
+          "id": "dev_024",
+          "real": "problema_tecnico",
+          "prevista": "problema_tecnico"
+        }
+      ],
+      "classes_sem_previsoes": []
+    }
+  }
+}

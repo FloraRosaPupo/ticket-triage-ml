@@ -1,0 +1,25 @@
+id,text,label,origem,group_id
+dev_001,Esqueci minha senha e preciso criar outra para entrar.,acesso,sintetico_ia,senha_esquecida
+dev_002,Não lembro a senha da minha conta. Como posso redefinir?,acesso,sintetico_ia,senha_esquecida
+dev_003,Minha conta foi bloqueada após várias tentativas de login.,acesso,sintetico_ia,conta_bloqueada
+dev_004,Digitei a senha errada várias vezes e agora meu usuário está bloqueado.,acesso,sintetico_ia,conta_bloqueada
+dev_005,O código de autenticação para entrar não chegou ao meu celular.,acesso,sintetico_ia,segundo_fator
+dev_006,Estou aguardando o código da segunda etapa do login e não recebi a mensagem.,acesso,sintetico_ia,segundo_fator
+dev_007,Entrei na conta mas aparece acesso negado ao abrir a área de relatórios.,acesso,sintetico_ia,permissao_relatorios
+dev_008,Meu usuário não tem permissão para consultar os relatórios da equipe.,acesso,sintetico_ia,permissao_relatorios
+dev_009,A mensalidade foi cobrada duas vezes no meu cartão.,cobranca,sintetico_ia,cobranca_duplicada
+dev_010,Há dois lançamentos da mesma assinatura na fatura deste mês.,cobranca,sintetico_ia,cobranca_duplicada
+dev_011,O valor da fatura está maior que o preço contratado.,cobranca,sintetico_ia,valor_divergente
+dev_012,Meu plano custa cinquenta reais mas a cobrança veio de oitenta.,cobranca,sintetico_ia,valor_divergente
+dev_013,Paguei o boleto e a mensalidade continua marcada como pendente.,cobranca,sintetico_ia,pagamento_nao_reconhecido
+dev_014,O pagamento já saiu da minha conta mas vocês ainda indicam a fatura em aberto.,cobranca,sintetico_ia,pagamento_nao_reconhecido
+dev_015,O estorno aprovado ainda não apareceu na fatura do cartão.,cobranca,sintetico_ia,estorno_pendente
+dev_016,Recebi a confirmação do reembolso mas o dinheiro não foi devolvido.,cobranca,sintetico_ia,estorno_pendente
+dev_017,Entrei no sistema mas a tela trava ao exportar o relatório.,problema_tecnico,sintetico_ia,exportacao_travada
+dev_018,Consigo consultar o relatório mas a exportação fica carregando sem terminar.,problema_tecnico,sintetico_ia,exportacao_travada
+dev_019,Depois de entrar alterei as preferências mas o botão salvar não responde.,problema_tecnico,sintetico_ia,preferencias_nao_salvas
+dev_020,Salvo as configurações do painel e ao recarregar as alterações desaparecem.,problema_tecnico,sintetico_ia,preferencias_nao_salvas
+dev_021,Estou conectado mas o aplicativo fecha sozinho ao abrir o calendário.,problema_tecnico,sintetico_ia,calendario_fecha
+dev_022,Após o login tento consultar minha agenda e o programa encerra inesperadamente.,problema_tecnico,sintetico_ia,calendario_fecha
+dev_023,A busca no catálogo mostra uma tela de erro para qualquer produto.,problema_tecnico,sintetico_ia,busca_catalogo_erro
+dev_024,Consigo acessar o catálogo mas toda pesquisa termina com erro interno.,problema_tecnico,sintetico_ia,busca_catalogo_erro

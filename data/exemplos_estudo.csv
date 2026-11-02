@@ -1,0 +1,4 @@
+id,text,label,origem,group_id
+estudo_001,Esqueci minha senha.,acesso,sintetico_estudo,senha_esquecida
+estudo_002,A mensalidade foi cobrada duas vezes.,cobranca,sintetico_estudo,cobranca_duplicada
+estudo_003,Entrei no sistema mas a tela trava ao exportar.,problema_tecnico,sintetico_estudo,exportacao_travada

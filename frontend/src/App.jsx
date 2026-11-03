@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import TopNav from "./components/TopNav";
 import StatsOverview from "./components/StatsOverview";
 import ClassificationFlow from "./components/ClassificationFlow";
+import ClassificationReport from "./components/ClassificationReport";
 import FilterBar from "./components/FilterBar";
 import KanbanBoard from "./components/KanbanBoard";
 import TicketDetails from "./components/TicketDetails";
@@ -19,8 +20,12 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [theme, setTheme] = useState("todos");
   const [selectedId, setSelectedId] = useState(null);
+  const [showReport, setShowReport] = useState(false);
+  const [report, setReport] = useState(null);
 
   async function loadTickets(signal, classify = false) {
+    const started = Date.now();
+    setReport({ started, source, tickets: [] });
     setLoading(true);
     setError("");
     try {
@@ -46,8 +51,23 @@ export default function App() {
           status: previous.find((old) => old.id === t.id)?.status ?? t.status,
         })),
       );
+      setReport({
+        started,
+        finished: Date.now(),
+        source,
+        tickets: data.tickets,
+      });
     } catch (err) {
-      if (err.name !== "AbortError") setError(err.message);
+      if (err.name !== "AbortError") {
+        setError(err.message);
+        setReport({
+          started,
+          finished: Date.now(),
+          source,
+          tickets: [],
+          error: err.message,
+        });
+      }
     } finally {
       if (!signal?.aborted) setLoading(false);
     }
@@ -68,6 +88,9 @@ export default function App() {
   }
 
   function resetClassification() {
+    setReport((current) =>
+      current ? { ...current, reset: Date.now() } : null,
+    );
     setTickets((current) =>
       current.map((ticket) => ({
         ...ticket,
@@ -131,6 +154,12 @@ export default function App() {
             <div className="classification-actions">
               <button
                 className="secondary-button"
+                onClick={() => setShowReport(true)}
+              >
+                Ver classificação
+              </button>
+              <button
+                className="secondary-button"
                 disabled={
                   loading ||
                   !tickets.some((ticket) => ticket.category !== "revisao")
@@ -164,8 +193,8 @@ export default function App() {
                   setSource(e.target.value);
                 }}
               >
-                <option value="randomapi">Exemplos online · inglês</option>
-                <option value="local">Exemplos em português</option>
+                <option value="randomapi">Dados da API externa</option>
+                <option value="local">Dados mocados</option>
               </select>
             </label>
             <span>
@@ -246,6 +275,13 @@ export default function App() {
           ticket={selected}
           onClose={() => setSelectedId(null)}
           onStatus={changeStatus}
+        />
+      )}
+      {showReport && (
+        <ClassificationReport
+          report={report}
+          loading={loading}
+          onClose={() => setShowReport(false)}
         />
       )}
     </div>

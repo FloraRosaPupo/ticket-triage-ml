@@ -1026,3 +1026,127 @@ select {
     padding-bottom: 16px;
   }
 }
+.classification-dialog {
+  width: min(850px, 94vw);
+  max-height: 90dvh;
+  overflow: auto;
+  border: 1px solid #cbd6e8;
+  border-radius: 12px;
+  padding: 28px;
+  color: #303b4e;
+  box-shadow: 0 24px 90px #16233430;
+}
+.classification-dialog::backdrop {
+  background: #1c293655;
+}
+.classification-dialog h2 {
+  font-size: 23px;
+  letter-spacing: -0.5px;
+  margin: 20px 0 10px;
+}
+.classification-dialog h3 {
+  font-size: 13px;
+  margin-top: 22px;
+}
+.report-intro {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #6b7890;
+}
+.report-flow {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 22px 0;
+}
+.report-flow li {
+  border: 1px solid #d7e1f1;
+  border-top: 3px solid #7391cf;
+  background: #f6f8fc;
+  border-radius: 6px;
+  padding: 13px;
+}
+.report-flow b {
+  font-size: 12px;
+}
+.report-flow span {
+  display: block;
+  font-size: 11px;
+  line-height: 1.6;
+  color: #738099;
+  margin-top: 7px;
+}
+.execution-log {
+  background: #f1f4f9;
+  border: 1px solid #dbe3ef;
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.execution-log time {
+  font-family: Consolas, monospace;
+  color: #5572a4;
+  margin-right: 8px;
+}
+.report-caption {
+  font-size: 10px;
+  color: #8590a2;
+  line-height: 1.6;
+}
+.report-ticket-picker {
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+  margin-top: 25px;
+}
+.report-ticket-picker select {
+  max-width: 100%;
+  width: 100%;
+}
+.report-texts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.report-texts section {
+  border: 1px solid #dce3ee;
+  border-radius: 7px;
+  padding: 14px;
+  margin-top: 16px;
+}
+.report-texts h3 {
+  margin: 0;
+  color: #667896;
+}
+.report-texts p {
+  font-size: 12px;
+  line-height: 1.8;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+.report-texts small {
+  font-size: 10px;
+  color: #8791a3;
+  line-height: 1.6;
+}
+.report-result {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+  margin-top: 20px;
+}
+@media (max-width: 600px) {
+  .classification-dialog {
+    padding: 18px;
+  }
+  .report-flow {
+    grid-template-columns: 1fr 1fr;
+  }
+  .report-texts {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,5 +1,13 @@
 # Painel de suporte: construção passo a passo
 
+O seletor apresenta “Dados da API externa” e “Dados mocados”. O botão
+“Ver classificação” abre `ClassificationReport`: um modal com o fluxo,
+horários de envio/recebimento da última execução, duração total e resultado
+por chamado. Ele permite comparar a mensagem original e o texto efetivamente
+usado pelo classificador. Não simula logs internos em tempo real. O histórico
+da última execução fica na memória da tela; ao reiniciar a triagem, recebe uma
+anotação sem apagar o resultado anterior. Uma nova consulta substitui o registro.
+
 O quadro é organizado exclusivamente por tema: Acesso, Cobrança, Problema
 técnico e Aguardando revisão. O status permanece no chamado e não define sua
 coluna. `ClassificationFlow` mostra o processo em três etapas — recebimento,

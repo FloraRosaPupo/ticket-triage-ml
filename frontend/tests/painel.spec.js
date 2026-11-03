@@ -35,6 +35,24 @@ test("classifica, filtra, agrupa e move chamados no painel", async ({
   await expect(page.locator(".theme-badge.acesso")).toHaveCount(3);
   await expect(page.locator(".theme-badge.cobranca")).toHaveCount(3);
   await expect(page.locator(".theme-badge.problema_tecnico")).toHaveCount(3);
+  await expect(page.getByLabel("Fonte dos chamados")).toContainText(
+    "Dados mocados",
+  );
+  await expect(page.getByLabel("Fonte dos chamados")).toContainText(
+    "Dados da API externa",
+  );
+  await page
+    .getByRole("button", { name: "Ver classificação", exact: true })
+    .click();
+  await expect(page.getByRole("dialog")).toContainText("9 com tema sugerido");
+  await expect(page.getByRole("dialog")).toContainText(
+    "Texto usado para identificar o assunto",
+  );
+  await page.screenshot({
+    path: "test-results/registro-classificacao.png",
+    fullPage: true,
+  });
+  await page.getByRole("button", { name: "Fechar classificação" }).click();
   await page
     .getByRole("button", { name: "Voltar para antes da classificação" })
     .click();

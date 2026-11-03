@@ -35,9 +35,34 @@ executar código durante a leitura. Use o mesmo ambiente de dependências do tre
 O primeiro experimento acertou 3 de 6 chamados de validação, contra 2 de 6
 do baseline. A base pequena e sintética não demonstra desempenho real.
 
+## Painel de suporte em React
+
+O painel usa React + Parcel e nove chamados fictícios. A API Python aplica o
+modelo salvo automaticamente ao carregar os dados. Há busca, filtros por tema,
+Kanban agrupado por status ou tema, detalhes e mudança de status na sessão.
+
+Na raiz do projeto, com o modelo treinado, inicie a API:
+
+```powershell
+.\.venv\Scripts\python.exe -m backend.server
+```
+
+Em outro terminal:
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+Abra http://127.0.0.1:1234. Mudanças de status não são persistidas após recarregar
+a página. Os dados de demonstração são separados dos dados de treino e não
+servem para avaliar desempenho. Veja [a explicação dos componentes](docs/painel-react.md).
+
 ## Guias de estudo
 
 - [Ambiente e leitura dos dados](docs/etapa-2.md)
 - [Dados, categorias e divisão](docs/dados.md)
 - [Primeiro treinamento](docs/primeiro-treino.md)
 - [Fluxogramas do processo](docs/fluxograma.md)
+- [Painel React passo a passo](docs/painel-react.md)

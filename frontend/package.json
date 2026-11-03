@@ -1,0 +1,20 @@
+{
+  "name": "ticket-triage-panel",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "parcel src/index.html --host 127.0.0.1 --port 1234",
+    "build": "parcel build src/index.html --dist-dir dist --public-url /",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "parcel": "^2.15.0",
+    "prettier": "^3.9.10"
+  },
+  "browserslist": "> 0.5%, last 2 versions, not dead"
+}

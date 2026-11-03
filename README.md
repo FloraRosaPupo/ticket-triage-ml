@@ -37,9 +37,13 @@ do baseline. A base pequena e sintética não demonstra desempenho real.
 
 ## Painel de suporte em React
 
-O painel usa React + Parcel e nove chamados fictícios. A API Python aplica o
-modelo salvo automaticamente ao carregar os dados. Há busca, filtros por tema,
-Kanban agrupado por status ou tema, detalhes e mudança de status na sessão.
+O painel usa React + Parcel e carrega 12 chamados fictícios da RandomAPI pela
+API Python. Como as mensagens externas estão em inglês, o tema fica como
+“Revisão necessária”; o modelo atual foi treinado em português. O seletor de
+fonte permite usar nove exemplos locais em português com classificação automática.
+Falhas na fonte externa são mostradas na tela, sem substituir os dados silenciosamente.
+Há busca, filtros por tema,
+Kanban agrupado por tema, detalhes e mudança de status na sessão.
 
 Na raiz do projeto, com o modelo treinado, inicie a API:
 

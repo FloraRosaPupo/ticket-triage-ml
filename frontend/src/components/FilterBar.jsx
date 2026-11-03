@@ -1,15 +1,7 @@
 import React from "react";
 import { THEMES } from "../constants";
 
-export default function FilterBar({
-  query,
-  onQuery,
-  theme,
-  onTheme,
-  groupBy,
-  onGroupBy,
-  counts,
-}) {
+export default function FilterBar({ query, onQuery, theme, onTheme, counts }) {
   return (
     <div className="filters">
       <div className="filter-top">
@@ -21,13 +13,6 @@ export default function FilterBar({
             value={query}
             onChange={(e) => onQuery(e.target.value)}
           />
-        </label>
-        <label className="group-label">
-          Agrupar por{" "}
-          <select value={groupBy} onChange={(e) => onGroupBy(e.target.value)}>
-            <option value="status">Status</option>
-            <option value="category">Tema</option>
-          </select>
         </label>
       </div>
       <div className="theme-tabs" aria-label="Filtrar por tema">

@@ -1,35 +1,42 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "./components/Sidebar";
+import TopNav from "./components/TopNav";
 import StatsOverview from "./components/StatsOverview";
+import ClassificationFlow from "./components/ClassificationFlow";
 import FilterBar from "./components/FilterBar";
 import KanbanBoard from "./components/KanbanBoard";
 import TicketDetails from "./components/TicketDetails";
 import { THEMES, STATUSES } from "./constants";
 
 export default function App() {
+  const [source, setSource] = useState(() =>
+    new URLSearchParams(window.location.search).get("source") === "local"
+      ? "local"
+      : "randomapi",
+  );
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [theme, setTheme] = useState("todos");
-  const [groupBy, setGroupBy] = useState("status");
   const [selectedId, setSelectedId] = useState(null);
 
   async function loadTickets(signal) {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch("/api/tickets", { signal });
+      const response = await fetch(`/api/tickets?source=${source}`, { signal });
       if (!response.ok)
         throw new Error(
-          "Não foi possível carregar os chamados. Verifique se a API Python está em execução.",
+          "Não foi possível carregar os chamados. Tente novamente ou escolha os exemplos em português.",
         );
       const data = await response.json();
       if (
         !Array.isArray(data.tickets) ||
         data.tickets.some((t) => !THEMES[t.category] || !STATUSES[t.status])
       )
-        throw new Error("A API retornou dados inválidos.");
+        throw new Error(
+          "Não conseguimos ler os chamados recebidos. Tente novamente.",
+        );
       setTickets((previous) =>
         data.tickets.map((t) => ({
           ...t,
@@ -47,7 +54,7 @@ export default function App() {
     const controller = new AbortController();
     loadTickets(controller.signal);
     return () => controller.abort();
-  }, []);
+  }, [source]);
 
   function changeStatus(id, status) {
     setTickets((current) =>
@@ -82,7 +89,7 @@ export default function App() {
       <a className="skip-link" href="#main">
         Pular para os chamados
       </a>
-      <Sidebar total={tickets.length} />
+      <TopNav total={tickets.length} />
       <main id="main">
         <div className="topbar">
           <span>
@@ -95,9 +102,14 @@ export default function App() {
         <div className="page-content">
           <header className="page-header">
             <div>
-              <p className="eyebrow">CENTRAL DE SUPORTE</p>
-              <h1>Cada chamado, no seu lugar.</h1>
-              <p>Acompanhe sua fila e deixe a primeira triagem com o modelo.</p>
+              <p className="eyebrow">OPERAÇÃO / ATENDIMENTO</p>
+              <h1>
+                Fila de atendimento<span className="title-dot">.</span>
+              </h1>
+              <p>
+                Receba os chamados, identifique o assunto e acompanhe a
+                resolução.
+              </p>
             </div>
             <button
               className="primary-button"
@@ -105,22 +117,56 @@ export default function App() {
               onClick={() => loadTickets()}
             >
               <span aria-hidden="true">↻</span>
-              {loading ? "Classificando…" : "Reclassificar chamados"}
+              {loading
+                ? "Carregando…"
+                : source === "local"
+                  ? "Identificar assuntos novamente"
+                  : "Atualizar chamados"}
             </button>
           </header>
+          <div className="source-picker">
+            <label>
+              Carregar chamados de{" "}
+              <select
+                aria-label="Fonte dos chamados"
+                value={source}
+                disabled={loading}
+                onChange={(e) => {
+                  setTickets([]);
+                  setSelectedId(null);
+                  setTheme("todos");
+                  setQuery("");
+                  setSource(e.target.value);
+                }}
+              >
+                <option value="randomapi">Exemplos online · inglês</option>
+                <option value="local">Exemplos em português</option>
+              </select>
+            </label>
+            <span>
+              {source === "randomapi"
+                ? "Chamados fictícios obtidos pela internet"
+                : "Chamados de exemplo para acompanhar a identificação dos assuntos"}
+            </span>
+          </div>
           <StatsOverview tickets={tickets} />
+          <ClassificationFlow tickets={tickets} loading={loading} />
           <div className="automation-note">
             <span className="spark" aria-hidden="true">
               ✧
             </span>
             <div>
-              <strong>Triagem automática por tema</strong>
+              <strong>
+                {source === "randomapi"
+                  ? "Estes chamados precisam de revisão"
+                  : "Os assuntos são identificados automaticamente"}
+              </strong>
               <span>
-                Os textos são classificados ao carregar. Você acompanha o
-                atendimento.
+                {source === "randomapi"
+                  ? "A identificação de assuntos está disponível em português. Escolha os exemplos em português para experimentar."
+                  : "Cada mensagem recebe um tema sugerido: acesso, cobrança ou problema técnico. Confira a sugestão antes de atender."}
               </span>
             </div>
-            <span className="model-label">TF-IDF + regressão logística</span>
           </div>
           <section className="board-section" aria-labelledby="board-title">
             <div className="board-heading">
@@ -128,22 +174,20 @@ export default function App() {
                 <h2 id="board-title">Quadro de chamados</h2>
                 <span>{filtered.length} chamados nesta visualização</span>
               </div>
-              <span className="board-view">▦ Kanban</span>
+              <span className="board-view">Chamados por tema</span>
             </div>
             <FilterBar
               query={query}
               onQuery={setQuery}
               theme={theme}
               onTheme={setTheme}
-              groupBy={groupBy}
-              onGroupBy={setGroupBy}
               counts={counts}
             />
             <div aria-live="polite">
               {loading && (
                 <div className="loading-state">
                   <span className="spinner" />
-                  Carregando e classificando os chamados…
+                  Carregando os chamados…
                 </div>
               )}
               {error && (
@@ -158,7 +202,6 @@ export default function App() {
             {!loading && !error && (
               <KanbanBoard
                 tickets={filtered}
-                groupBy={groupBy}
                 onOpen={setSelectedId}
                 onStatus={changeStatus}
               />
@@ -167,8 +210,8 @@ export default function App() {
           <footer className="page-footer">
             <span>Fila · um projeto de aprendizado</span>
             <span>
-              Dados fictícios · Modelo didático · Alterações de status somente
-              nesta sessão
+              Chamados de demonstração · Alterações de status somente nesta
+              sessão
             </span>
           </footer>
         </div>

@@ -1,13 +1,13 @@
 import React from "react";
-import { THEMES, STATUSES } from "../constants";
+import { THEMES } from "../constants";
 import TicketCard from "./TicketCard";
 
-export default function KanbanBoard({ tickets, groupBy, onOpen, onStatus }) {
-  const groups = groupBy === "status" ? STATUSES : THEMES;
+export default function KanbanBoard({ tickets, onOpen, onStatus }) {
+  const groups = THEMES;
   return (
-    <div className="kanban">
+    <div className="kanban by-category">
       {Object.entries(groups).map(([key, label]) => {
-        const items = tickets.filter((t) => t[groupBy] === key);
+        const items = tickets.filter((t) => t.category === key);
         return (
           <section
             className={`kanban-column column-${key}`}

@@ -2,6 +2,7 @@ export const THEMES = {
   acesso: "Acesso",
   cobranca: "Cobrança",
   problema_tecnico: "Problema técnico",
+  revisao: "Aguardando revisão",
 };
 export const STATUSES = {
   novo: "Novos",

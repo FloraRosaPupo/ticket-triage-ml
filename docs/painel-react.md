@@ -1,5 +1,31 @@
 # Painel de suporte: construção passo a passo
 
+O quadro é organizado exclusivamente por tema: Acesso, Cobrança, Problema
+técnico e Aguardando revisão. O status permanece no chamado e não define sua
+coluna. `ClassificationFlow` mostra o processo em três etapas — recebimento,
+identificação do assunto e organização — com contagens derivadas dos dados.
+O layout usa navegação superior e detalhes em uma lateral, com textos voltados
+à pessoa que atende, sem termos de implementação nas orientações do painel.
+
+## Integração com dados externos
+
+A fonte padrão agora é a [RandomAPI](https://randomapi.dev/apis/support-tickets).
+`backend/providers.py` busca 12 chamados com semente e intervalo de datas fixos,
+adapta status, prioridade e canal e seleciona somente mensagens do solicitante.
+Não usa mensagens do agente como se fossem pedidos do cliente.
+
+`GET /api/tickets?source=randomapi` consulta a fonte externa com timeout de 15
+segundos. Falhas retornam HTTP 502 e permitem tentar novamente ou escolher a
+fonte local. Não há substituição silenciosa por dados locais.
+
+Os textos externos são em inglês e recebem “Revisão necessária”. Não são
+submetidos ao modelo treinado em português nem recebem rótulos inventados.
+`GET /api/tickets?source=local` mantém a classificação dos exemplos portugueses.
+O seletor de fonte no painel alterna entre esses dois fluxos. As mudanças de
+status continuam apenas na sessão; nenhuma escrita é enviada à RandomAPI.
+
+Os passos abaixo descrevem a base local e os componentes compartilhados.
+
 O painel usa React e Parcel. A API local usa Python e carrega a pipeline já
 treinada. Não há um segundo modelo nem treinamento no navegador.
 
@@ -36,10 +62,10 @@ o servidor Python, evitando configurar CORS no fluxo local.
 | Componente | Responsabilidade |
 |---|---|
 | `App` | Busca dados na API e mantém chamados, filtros, carregamento, erro e chamado selecionado. |
-| `Sidebar` | Mostra a identidade e a navegação do painel. |
+| `TopNav` | Mostra a identidade e a navegação do painel. |
 | `StatsOverview` | Calcula os indicadores gerais a partir dos chamados. |
 | `FilterBar` | Recebe valores de filtros e notifica o App quando mudam. |
-| `KanbanBoard` | Agrupa chamados por status ou por tema e cria as colunas. |
+| `KanbanBoard` | Agrupa chamados por tema e cria as colunas. |
 | `TicketCard` | Mostra um chamado, abre seus detalhes e permite alterar status. |
 | `TicketDetails` | Exibe a mensagem completa em um diálogo com navegação por teclado. |
 

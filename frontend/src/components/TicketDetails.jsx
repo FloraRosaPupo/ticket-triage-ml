@@ -36,8 +36,8 @@ export default function TicketDetails({ ticket, onClose, onStatus }) {
           ✧ {THEMES[ticket.category]}
         </span>
         <p>
-          Tema sugerido automaticamente pelo classificador. A previsão pode
-          estar errada.
+          {ticket.classification_note ||
+            "Este tema foi sugerido a partir da mensagem do cliente. Confira se ele corresponde ao pedido antes de atender."}
         </p>
       </div>
       <div className="detail-fields">

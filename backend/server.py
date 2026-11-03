@@ -3,9 +3,10 @@
 import json
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import parse_qs, urlsplit
 
 import joblib
+from backend.providers import carregar_externos
 
 RAIZ = Path(__file__).resolve().parents[1]
 
@@ -34,11 +35,16 @@ class Handler(BaseHTTPRequestHandler):
         if caminho == '/api/health':
             self.responder(200, {'status': 'ok', 'model_loaded': self.modelo is not None})
         elif caminho == '/api/tickets':
+            fonte = parse_qs(urlsplit(self.path).query).get('source', ['randomapi'])[0]
+            if fonte not in ('randomapi', 'local'):
+                self.responder(400, {'error': 'Fonte de chamados inválida.'})
+                return
             try:
-                self.responder(200, {'tickets': carregar_chamados(self.modelo)})
+                chamados = carregar_externos() if fonte == 'randomapi' else carregar_chamados(self.modelo)
+                self.responder(200, {'tickets': chamados, 'source': fonte})
             except Exception:
-                self.log_error('Falha ao carregar/classificar os chamados de demonstração.')
-                self.responder(500, {'error': 'Não foi possível classificar os chamados.'})
+                self.log_error('Falha ao carregar a fonte %s.', fonte)
+                self.responder(502, {'error': 'Não foi possível carregar os chamados. Tente novamente ou selecione a demonstração local.'})
         else:
             self.responder(404, {'error': 'Rota não encontrada.'})
 

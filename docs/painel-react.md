@@ -18,9 +18,19 @@ Não usa mensagens do agente como se fossem pedidos do cliente.
 segundos. Falhas retornam HTTP 502 e permitem tentar novamente ou escolher a
 fonte local. Não há substituição silenciosa por dados locais.
 
-Os textos externos são em inglês e recebem “Revisão necessária”. Não são
-submetidos ao modelo treinado em português nem recebem rótulos inventados.
-`GET /api/tickets?source=local` mantém a classificação dos exemplos portugueses.
+Os textos externos são traduzidos pelo MyMemory antes da classificação.
+`backend/translation.py` traduz título e mensagens do solicitante, mantém o
+original e inclui a tradução nos detalhes. Trechos repetidos são guardados em
+cache na memória para reduzir chamadas. O serviço gratuito permite 5.000
+caracteres por dia e 500 bytes por trecho; erros deixam o chamado aguardando
+revisão, sem inventar uma tradução. Apenas os exemplos fictícios são enviados.
+Referências: [especificação](https://mymemory.translated.net/doc/spec.php) e
+[limites](https://mymemory.translated.net/doc/usagelimits.php).
+
+`GET /api/tickets?source=local` deixa os exemplos portugueses aguardando revisão.
+O botão “Identificar assuntos” usa `classify=true` para classificá-los.
+“Voltar para antes da classificação” limpa as sugestões apenas na interface,
+preservando mensagens e status. É possível classificar novamente.
 O seletor de fonte no painel alterna entre esses dois fluxos. As mudanças de
 status continuam apenas na sessão; nenhuma escrita é enviada à RandomAPI.
 

@@ -20,11 +20,14 @@ export default function App() {
   const [theme, setTheme] = useState("todos");
   const [selectedId, setSelectedId] = useState(null);
 
-  async function loadTickets(signal) {
+  async function loadTickets(signal, classify = false) {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch(`/api/tickets?source=${source}`, { signal });
+      const response = await fetch(
+        `/api/tickets?source=${source}&classify=${classify}`,
+        { signal },
+      );
       if (!response.ok)
         throw new Error(
           "Não foi possível carregar os chamados. Tente novamente ou escolha os exemplos em português.",
@@ -62,6 +65,20 @@ export default function App() {
         ticket.id === id ? { ...ticket, status } : ticket,
       ),
     );
+  }
+
+  function resetClassification() {
+    setTickets((current) =>
+      current.map((ticket) => ({
+        ...ticket,
+        category: "revisao",
+        translated_text: undefined,
+        classification_note:
+          "O assunto deste chamado ainda não foi identificado. Clique em Identificar assuntos para organizar por tema.",
+      })),
+    );
+    setTheme("todos");
+    setQuery("");
   }
   const normalize = (value) =>
     value
@@ -111,18 +128,26 @@ export default function App() {
                 resolução.
               </p>
             </div>
-            <button
-              className="primary-button"
-              disabled={loading}
-              onClick={() => loadTickets()}
-            >
-              <span aria-hidden="true">↻</span>
-              {loading
-                ? "Carregando…"
-                : source === "local"
-                  ? "Identificar assuntos novamente"
-                  : "Atualizar chamados"}
-            </button>
+            <div className="classification-actions">
+              <button
+                className="secondary-button"
+                disabled={
+                  loading ||
+                  !tickets.some((ticket) => ticket.category !== "revisao")
+                }
+                onClick={resetClassification}
+              >
+                Voltar para antes da classificação
+              </button>
+              <button
+                className="primary-button"
+                disabled={loading}
+                onClick={() => loadTickets(undefined, true)}
+              >
+                <span aria-hidden="true">↻</span>
+                {loading ? "Carregando…" : "Identificar assuntos"}
+              </button>
+            </div>
           </header>
           <div className="source-picker">
             <label>
@@ -158,13 +183,13 @@ export default function App() {
             <div>
               <strong>
                 {source === "randomapi"
-                  ? "Estes chamados precisam de revisão"
-                  : "Os assuntos são identificados automaticamente"}
+                  ? "Assuntos identificados a partir da tradução"
+                  : "Prontos para identificar os assuntos"}
               </strong>
               <span>
                 {source === "randomapi"
-                  ? "A identificação de assuntos está disponível em português. Escolha os exemplos em português para experimentar."
-                  : "Cada mensagem recebe um tema sugerido: acesso, cobrança ou problema técnico. Confira a sugestão antes de atender."}
+                  ? "As mensagens em inglês são traduzidas antes de receber um tema sugerido. Confira o resultado nos detalhes do chamado."
+                  : "Os chamados chegam aguardando revisão. Clique em Identificar assuntos para organizá-los por tema."}
               </span>
             </div>
           </div>

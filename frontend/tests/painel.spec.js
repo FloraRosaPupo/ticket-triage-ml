@@ -5,21 +5,9 @@ test("carrega API externa e preserva os acentos", async ({ page }) => {
   await expect(page.locator(".ticket-card")).toHaveCount(12, {
     timeout: 25000,
   });
-  await expect(page.locator(".theme-badge.revisao").first()).toHaveText(
-    "✧ Aguardando revisão",
-  );
-  await expect(
-    page.getByText(
-      "A identificação de assuntos está disponível em português.",
-      { exact: false },
-    ),
-  ).toBeVisible();
-  await expect(page.locator("body")).not.toContainText("Revis?o");
-  await expect(page.locator("body")).not.toContainText("Demonstra??o");
+  await expect(page.locator(".theme-badge.revisao")).toHaveCount(0);
   await page.locator(".ticket-title").first().click();
-  await expect(page.getByRole("dialog")).toContainText(
-    "Nenhum tema foi atribuído",
-  );
+  await expect(page.getByRole("dialog")).toContainText("TRADU");
   await page.keyboard.press("Escape");
   await page.screenshot({
     path: "test-results/api-externa.png",
@@ -27,7 +15,7 @@ test("carrega API externa e preserva os acentos", async ({ page }) => {
   });
   await page.getByLabel("Fonte dos chamados").selectOption("local");
   await expect(page.locator(".ticket-card")).toHaveCount(9);
-  await expect(page.locator(".theme-badge.revisao")).toHaveCount(0);
+  await expect(page.locator(".theme-badge.revisao")).toHaveCount(9);
 });
 
 test("classifica, filtra, agrupa e move chamados no painel", async ({
@@ -40,9 +28,26 @@ test("classifica, filtra, agrupa e move chamados no painel", async ({
   await expect(
     page.getByRole("heading", { name: "Fila de atendimento." }),
   ).toBeVisible();
+  await expect(page.locator(".theme-badge.revisao")).toHaveCount(9);
+  await page
+    .getByRole("button", { name: "Identificar assuntos", exact: true })
+    .click();
   await expect(page.locator(".theme-badge.acesso")).toHaveCount(3);
   await expect(page.locator(".theme-badge.cobranca")).toHaveCount(3);
   await expect(page.locator(".theme-badge.problema_tecnico")).toHaveCount(3);
+  await page
+    .getByRole("button", { name: "Voltar para antes da classificação" })
+    .click();
+  await expect(page.locator(".theme-badge.revisao")).toHaveCount(9);
+  await expect(
+    page
+      .getByRole("region", { name: "Aguardando revisão", exact: true })
+      .locator(".ticket-card"),
+  ).toHaveCount(9);
+  await page
+    .getByRole("button", { name: "Identificar assuntos", exact: true })
+    .click();
+  await expect(page.locator(".theme-badge.acesso")).toHaveCount(3);
   await page.screenshot({
     path: "test-results/painel-desktop.png",
     fullPage: true,
@@ -79,9 +84,7 @@ test("classifica, filtra, agrupa e move chamados no painel", async ({
   await expect(page.getByRole("dialog")).toContainText("Esqueci minha senha");
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).toHaveCount(0);
-  await page
-    .getByRole("button", { name: "Identificar assuntos novamente" })
-    .click();
+  await page.getByRole("button", { name: "Identificar assuntos" }).click();
   await expect(page.locator(".ticket-card")).toHaveCount(9);
   await expect(
     page

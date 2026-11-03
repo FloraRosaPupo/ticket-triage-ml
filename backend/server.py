@@ -7,12 +7,16 @@ from urllib.parse import parse_qs, urlsplit
 
 import joblib
 from backend.providers import carregar_externos
+from backend.translation import classificar_externos
 
 RAIZ = Path(__file__).resolve().parents[1]
 
 
-def carregar_chamados(modelo):
+def carregar_chamados(modelo, classificar=False):
     chamados = json.loads((RAIZ / 'data/demo_tickets.json').read_text(encoding='utf-8'))
+    if not classificar:
+        return [dict(chamado, category='revisao', classification_note='O assunto deste chamado ainda não foi identificado. Use o botão Identificar assuntos para organizar os chamados por tema.')
+                for chamado in chamados]
     categorias = modelo.predict([chamado['text'] for chamado in chamados])
     return [dict(chamado, category=str(categoria))
             for chamado, categoria in zip(chamados, categorias)]
@@ -40,7 +44,10 @@ class Handler(BaseHTTPRequestHandler):
                 self.responder(400, {'error': 'Fonte de chamados inválida.'})
                 return
             try:
-                chamados = carregar_externos() if fonte == 'randomapi' else carregar_chamados(self.modelo)
+                classificar = parse_qs(urlsplit(self.path).query).get('classify', ['false'])[0] == 'true'
+                chamados = carregar_externos() if fonte == 'randomapi' else carregar_chamados(self.modelo, classificar)
+                if fonte == 'randomapi':
+                    chamados = classificar_externos(chamados, self.modelo)
                 self.responder(200, {'tickets': chamados, 'source': fonte})
             except Exception:
                 self.log_error('Falha ao carregar a fonte %s.', fonte)

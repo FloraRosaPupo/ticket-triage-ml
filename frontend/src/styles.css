@@ -931,3 +931,98 @@ select {
     display: none;
   }
 }
+.classification-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.secondary-button {
+  border: 1px solid #d4dce9;
+  background: #fff;
+  color: #596b88;
+  border-radius: 6px;
+  padding: 11px 13px;
+  font-size: 11px;
+}
+.secondary-button:hover:not(:disabled) {
+  background: #edf2fc;
+}
+.secondary-button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+/* Bordas por tema ajudam a acompanhar a organizacao dos chamados. */
+.kanban-column {
+  border: 1px solid #ced7e6;
+  border-top: 3px solid #8d9bb4;
+  box-shadow: 0 2px 5px #24395905;
+}
+.column-revisao {
+  border-top-color: #be9650;
+}
+.column-acesso {
+  border-top-color: #6289d4;
+}
+.column-cobranca {
+  border-top-color: #b69258;
+}
+.column-problema_tecnico {
+  border-top-color: #9680bd;
+}
+.column-revisao .column-header h3 i {
+  border-color: #be9650;
+}
+.column-acesso .column-header h3 i {
+  border-color: #6289d4;
+}
+.column-cobranca .column-header h3 i {
+  border-color: #b69258;
+}
+.column-problema_tecnico .column-header h3 i {
+  border-color: #9680bd;
+}
+.column-header {
+  border-bottom: 1px solid #dce3ee;
+  margin-bottom: 10px;
+}
+.ticket-card {
+  border: 1px solid #d0d9e7;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px #24395907;
+}
+.ticket-card:hover {
+  border-color: #8da5d0;
+  box-shadow: 0 4px 12px #24395912;
+}
+.classification-flow {
+  border: 1px solid #c9d6ef;
+  box-shadow: 0 2px 5px #24395905;
+  border-radius: 8px;
+}
+.flow-step:not(:last-child) {
+  border-right: 1px solid #e0e7f2;
+  padding-right: 16px;
+}
+.search,
+.source-picker select {
+  border-color: #cbd5e5;
+}
+.theme-badge {
+  border-width: 1px;
+}
+.secondary-button {
+  border-color: #bfcce0;
+}
+.empty-column {
+  border-color: #c7d1e1;
+  background: #f5f7fa;
+}
+@media (max-width: 720px) {
+  .flow-step:not(:last-child) {
+    border-right: 0;
+    border-bottom: 1px solid #e0e7f2;
+    padding-right: 0;
+    padding-bottom: 16px;
+  }
+}

@@ -32,6 +32,12 @@ export default function TicketDetails({ ticket, onClose, onStatus }) {
         <p>{ticket.text}</p>
       </div>
       <div className="classification">
+        {ticket.translated_text && (
+          <div className="detail-message">
+            <small>TRADUÇÃO USADA PARA IDENTIFICAR O ASSUNTO</small>
+            <p>{ticket.translated_text}</p>
+          </div>
+        )}
         <span className={`theme-badge ${ticket.category}`}>
           ✧ {THEMES[ticket.category]}
         </span>

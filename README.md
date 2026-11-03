@@ -38,9 +38,13 @@ do baseline. A base pequena e sintética não demonstra desempenho real.
 ## Painel de suporte em React
 
 O painel usa React + Parcel e carrega 12 chamados fictícios da RandomAPI pela
-API Python. Como as mensagens externas estão em inglês, o tema fica como
-“Revisão necessária”; o modelo atual foi treinado em português. O seletor de
-fonte permite usar nove exemplos locais em português com classificação automática.
+API Python. As mensagens em inglês são traduzidas pelo MyMemory antes de
+receberem temas sugeridos pelo classificador. Os detalhes preservam o original
+e mostram a tradução. O seletor permite usar nove exemplos em português, que
+começam aguardando revisão e são classificados pelo botão “Identificar assuntos”.
+“Voltar para antes da classificação” remove as sugestões da tela e mantém os
+status de atendimento. A tradução gratuita depende de internet e de uma cota diária;
+em caso de falha, o chamado permanece aguardando revisão com uma explicação.
 Falhas na fonte externa são mostradas na tela, sem substituir os dados silenciosamente.
 Há busca, filtros por tema,
 Kanban agrupado por tema, detalhes e mudança de status na sessão.
